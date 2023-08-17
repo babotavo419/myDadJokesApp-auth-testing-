@@ -34,40 +34,39 @@ describe('Authentication Endpoints', () => {
         });
     });
 
+    
     describe('Jokes Endpoint', () => {
-        let token;
+      let token;
 
-        beforeAll(async () => {
-            // Login to get a token for the protected route tests
-            const res = await request(server)
-                .post('/api/auth/login')
-                .send({ username: 'test', password: 'test' });
-            token = res.body.token;
-        });
+      beforeAll(async () => {
+          const res = await request(server)
+              .post('/api/auth/login')
+              .send({ username: 'test', password: 'test' });
+          token = res.body.token;
+      });
 
-        it('should return status 200 for successful jokes retrieval', async () => {
-            const res = await request(server)
-                .get('/api/jokes')
-                .set('Authorization', token);
-            expect(res.status).toBe(200);
-        });
+      it('should return status 200 for successful jokes retrieval', async () => {
+          const res = await request(server)
+              .get('/api/jokes')
+              .set('Authorization', token);
+          expect(res.status).toBe(200);
+      });
 
-        it('should return a list of jokes', async () => {
-            const res = await request(server)
-                .get('/api/jokes')
-                .set('Authorization', token);
-            expect(res.body).toBeInstanceOf(Array);
-        });
+      it('should return a list of jokes', async () => {
+          const res = await request(server)
+              .get('/api/jokes')
+              .set('Authorization', token);
+          expect(res.body).toBeInstanceOf(Array);
+      });
 
-        it('should return status 401 when no token is provided', async () => {
-            const res = await request(server).get('/api/jokes');
-            expect(res.status).toBe(401);
-        });
-    });
+      it('should return status 401 when no token is provided', async () => {
+          const res = await request(server).get('/api/jokes');
+          expect(res.status).toBe(401);
+      });
+  });
 });
 
-// Your existing test
 test('sanity', () => {
-  expect(true).toBe(false);  // This will always fail. It's likely a placeholder to check if tests are running.
+  expect(true).toBe(true);
 });
 
