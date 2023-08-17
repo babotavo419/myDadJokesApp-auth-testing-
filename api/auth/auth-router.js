@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const Users = require('../../users/users-model.js');
 
 router.post('/register', async (req, res) => {
+    console.log(req.body);
     try {
         let user = req.body;
 
@@ -29,6 +30,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+    console.log("User login info:", req.body);
     try {
         const { username, password } = req.body;
 
@@ -43,6 +45,7 @@ router.post('/login', async (req, res) => {
 
         const token = generateToken(user);
         res.status(200).json({ message: `welcome, ${user.username}`, token });
+        console.log("Generated token:", token);
 
     } catch (error) {
         res.status(200).json(error);

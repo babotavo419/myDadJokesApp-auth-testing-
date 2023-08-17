@@ -3,7 +3,7 @@ const server = require('./server.js');
 
 describe('Authentication Endpoints', () => {
     describe('Register Endpoint', () => {
-        it('should return status 201 for successful registration', async () => {
+        it('should  status 201 for successful registration', async () => {
             const res = await request(server)
                 .post('/api/auth/register')
                 .send({ username: 'test', password: 'test' });
