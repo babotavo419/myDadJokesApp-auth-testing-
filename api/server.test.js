@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../../index.js');
+const server = require('../index.js');
 
 describe('Authentication Endpoints', () => {
     describe('Register Endpoint', () => {
