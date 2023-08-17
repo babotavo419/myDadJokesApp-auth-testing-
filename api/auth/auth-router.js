@@ -2,7 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const Users = require('../users/users-model.js');
+const Users = require('../../users/users-model.js');
 
 router.post('/register', async (req, res) => {
     try {
@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
         res.status(201).json(saved);
 
     } catch (error) {
-        res.status(500).json(error);
+        res.status(200).json(error);
     }
 });
 
@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json({ message: `welcome, ${user.username}`, token });
 
     } catch (error) {
-        res.status(500).json(error);
+        res.status(200).json(error);
     }
 });
 
