@@ -7,8 +7,10 @@ module.exports = {
 };
 
 async function add(user) {
-    const [id] = await db('users').insert(user, 'id'); // The 'id' here is to make it compatible with PostgreSQL which might be used with knex.
-    return findById(id);
+    const [id] = await db('users').insert(user, 'id');
+    const newUser = await findById(id);
+    console.log("Newly added user:", newUser);
+    return newUser;
 }
 
 function findBy(filter) {
