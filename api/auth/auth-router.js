@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
         }
 
         const existingUser = await Users.findBy({ username: user.username });
-        if (existingUser) {
+        if (existingUser && existingUser.length) {
             return res.status(400).json({ message: "username taken" });
         }
 
@@ -25,7 +25,8 @@ router.post('/register', async (req, res) => {
         res.status(201).json(saved);
 
     } catch (error) {
-        res.status(201).json(error);
+        console.log("Error during registration:", error);
+        res.status(500).json(error);
     }
 });
 
@@ -48,7 +49,7 @@ router.post('/login', async (req, res) => {
         console.log("Generated token:", token);
 
     } catch (error) {
-        res.status(200).json(error);
+        res.status(500).json(error);
     }
 });
 
@@ -58,7 +59,7 @@ function generateToken(user) {
         username: user.username,
     };
     const options = {
-        expiresIn: '1h',  // Token expires in 1 hour.
+        expiresIn: '1h',
     };
     return jwt.sign(payload, process.env.SECRET || "shh", options);
 }
