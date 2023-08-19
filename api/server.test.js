@@ -13,9 +13,14 @@ describe('Authentication Endpoints', () => {
         return request(server).post('/api/auth/login').send({ username, password });
     }
 
-    beforeEach(async () => {
+    beforeAll(async () => {
+        await db.migrate.latest();
+    });
+    
+    afterEach(async () => {
         await db('users').truncate();
     });
+    
 
     describe('Register Endpoint', () => {
 
