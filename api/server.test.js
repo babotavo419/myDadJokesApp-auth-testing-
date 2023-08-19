@@ -56,33 +56,35 @@ describe('Authentication Endpoints', () => {
     });
 
     describe('Jokes Endpoint', () => {
-
         let token;
-
+    
         beforeAll(async () => {
+            await request(server)
+                .post('/api/auth/register')
+                .send({ username: 'test', password: 'test' });
             const res = await loginUser('test', 'test');
             token = res.body.token;
         });
-
+    
         it('should return status 200 for successful jokes retrieval', async () => {
             const res = await request(server)
                 .get('/api/jokes')
                 .set('Authorization', token);
             expect(res.status).toBe(200);
         });
-
+    
         it('should return a list of jokes', async () => {
             const res = await request(server)
                 .get('/api/jokes')
                 .set('Authorization', token);
             expect(res.body).toBeInstanceOf(Array);
         });
-
+    
         it('should return status 401 when no token is provided', async () => {
             const res = await request(server).get('/api/jokes');
             expect(res.status).toBe(401);
         });
-
+    
     });
 
     afterAll(async () => {
