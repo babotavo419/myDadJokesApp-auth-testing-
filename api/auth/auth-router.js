@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
         }
 
         const existingUser = await Users.findBy({ username: user.username });
-        if (existingUser && existingUser.length) {
+        if (existingUser) {
             return res.status(400).json({ message: "username taken" });
         }
 
