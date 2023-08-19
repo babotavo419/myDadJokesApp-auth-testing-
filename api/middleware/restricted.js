@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
     let token = req.headers.authorization;
 
-    console.log("Received Token:", token);
-    console.log("Received Token:", req.headers.authorization);
     if (!token) {
         return res.status(401).json({ message: 'token required' });
     }
