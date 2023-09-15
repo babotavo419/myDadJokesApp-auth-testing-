@@ -1,42 +1,58 @@
-# Authentication and Testing Sprint Challenge
+**Title: Dad Jokes Auth and Testing**
 
-## Tools
+**Introduction:**
+The application you've provided is a web-based project focused on user authentication and jokes. It appears to be a Node.js-based backend application with an Express.js server and a database for storing user information and jokes. The project incorporates several key components:
 
-- Node >= 16.x
-- NPM >= 8.x (update NPM executing `npm i -g npm`)
-- Unix-like shell (Gitbash/bash/zsh)
+**1. Server Setup:**
+The application is hosted on a Node.js server using the Express.js framework. Express simplifies routing, middleware integration, and handling HTTP requests and responses. The server configuration includes essential middleware for security and functionality:
 
-## Project Setup
+- **Helmet Middleware:** Helmet is used to enhance the security of the application by setting various HTTP headers to protect against common vulnerabilities.
+  
+- **CORS Middleware:** CORS (Cross-Origin Resource Sharing) middleware is implemented to allow the server to handle requests from different origins, facilitating interactions between frontend and backend.
 
-- Fork, clone, and `npm install`.
-- Build your database executing `npm run migrate`.
-- Run tests locally executing `npm test`.
+- **JSON Middleware:** The `express.json()` middleware parses incoming JSON data, making it accessible in request bodies.
 
-## Project Instructions
+**2. Database Setup:**
+The application uses a relational database managed with Knex.js, which is a query builder for Node.js applications. The database schema includes a 'users' table with the following columns:
 
-Dad jokes are all the rage these days! In this challenge, you will build a real wise-guy application.
+- **id:** An auto-incrementing primary key used to uniquely identify users.
+- **username:** A string column for storing user usernames. It's marked as not nullable and must be unique.
+- **password:** A string column for storing hashed user passwords. It's also marked as not nullable.
 
-Users must be able to call the `[POST] /api/auth/register` endpoint to create a new account, and the `[POST] /api/auth/login` endpoint to get a token.
+The database setup is handled via migrations, and it allows the application to persist user data securely.
 
-We also need to make sure nobody without the token can call `[GET] /api/jokes` and gain access to our dad jokes.
+**3. User Authentication:**
+The application implements user authentication, allowing users to register and log in securely. It provides two main authentication endpoints:
 
-We will hash the user's password using `bcryptjs`, and use JSON Web Tokens and the `jsonwebtoken` library.
+- **Registration Endpoint (/api/auth/register):** This endpoint handles user registration. Users can provide a username and password. The server ensures that both fields are filled and not empty. If the username is already taken, registration is denied. If registration is successful, the user's password is hashed using bcrypt and stored in the database.
 
-### MVP
+- **Login Endpoint (/api/auth/login):** This endpoint handles user login. Users must provide a valid username and password. The server verifies the provided credentials against the stored hashed password using bcrypt. If the credentials are valid, a JSON Web Token (JWT) is generated for the user, which is then sent as part of the response. This token can be used for subsequent authenticated requests.
 
-Your finished project must include all of the following requirements (further instructions are found inside each file):
+**4. Authentication Middleware:**
+To protect certain routes and ensure that only authenticated users can access them, the application employs an authentication middleware. This middleware checks for the presence of a valid JWT in the 'Authorization' header of incoming requests. If a token is missing or invalid, the middleware returns a 401 (Unauthorized) status code, restricting access to protected routes.
 
-- [ ] An authentication workflow with functionality for account creation and login, implemented inside `api/auth/auth-router.js`.
-- [ ] Middleware used to restrict access to resources from non-authenticated requests, implemented inside `api/middleware/restricted.js`.
-- [ ] A minimum of 2 tests per API endpoint, written inside `api/server.test.js`.
+**5. Jokes API:**
+The application offers a Jokes API that serves a list of jokes. The jokes are stored in a separate module and are accessed via a dedicated route (`/api/jokes`). This route is protected by the authentication middleware, meaning only authenticated users with valid tokens can access it. The API provides the following functionality:
 
-**IMPORTANT Notes:**
+- **GET /api/jokes:** This endpoint returns a list of jokes in JSON format. Users must include a valid JWT in the 'Authorization' header to access this route. If no token is provided or it's invalid, the server responds with a 401 status code.
 
-- Codegrade is running some tests you cannot see in this repo. Make sure to comply with project instructions to the letter!
-- Do not exceed 2^8 rounds of hashing with `bcryptjs`.
-- If you use environment variables make sure to provide fallbacks in the code (e.g. `process.env.SECRET || "shh"`).
-- You are welcome to create additional files but **do not move or rename existing files** or folders.
-- Do not alter your `package.json` file except to install extra libraries. Do not update existing packages.
-- The database already has the `users` table, but if you run into issues, the migration is available.
-- In your solution, it is essential that you follow best practices and produce clean and professional results.
-- Schedule time to review, refine, and assess your work and perform basic professional polishing.
+**6. Testing:**
+The application includes a comprehensive testing suite using the 'supertest' library. The tests cover both authentication and jokes endpoints. The tests are organized into separate suites for clarity:
+
+- **Authentication Endpoints Tests:** These tests cover the registration and login endpoints. They verify that user registration is successful and that users can log in with valid credentials.
+
+- **Jokes Endpoint Tests:** These tests ensure that the jokes endpoint works correctly, returning jokes when authenticated and denying access when no token is provided.
+
+**7. Project Structure:**
+The project is structured into various directories to maintain a clean and organized codebase:
+
+- **api/auth:** Contains authentication-related routes.
+- **api/jokes:** Houses routes related to the jokes API.
+- **api/middleware:** Contains the authentication middleware.
+- **api/server.js:** The main server file where all routes and middleware are configured.
+- **data/migrations:** Holds database migration files that define the database schema.
+- **data/dbConfig.js:** Manages the database connection and configuration.
+- **users/users-model.js:** Contains functions for interacting with user data in the database.
+
+**Conclusion:**
+In summary, the application is a robust backend system that provides user authentication and a jokes API. It's structured well, adheres to best practices for security, and includes a comprehensive test suite to ensure its reliability. Users can register, log in, and access jokes securely through token-based authentication. This application serves as a strong foundation for further development or integration with a frontend to create a complete web application.
