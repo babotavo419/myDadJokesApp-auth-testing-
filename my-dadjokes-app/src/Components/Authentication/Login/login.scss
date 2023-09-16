@@ -1,0 +1,45 @@
+// login.scss
+
+.login-container {
+    max-width: 400px; // Limit the width of the login form
+    margin: 0 auto;  // Center the form horizontally
+  
+    h2 {
+      font-size: 1.5rem; // Larger heading font size
+      margin-bottom: 20px; // Spacing below the heading
+      text-align: center; // Center the heading
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      label {
+        font-weight: bold; // Make labels bold for emphasis
+      }
+  
+      input {
+        width: 100%; // Input fields take up the full width
+        padding: 10px; // Spacing within input fields
+        margin: 5px 0; // Vertical spacing between input fields
+        border: 1px solid #ccc; // Simple border for input fields
+        border-radius: 4px; // Rounded corners for input fields
+      }
+  
+      button {
+        background-color: #007bff; // Primary button color
+        color: #fff; // Button text color
+        padding: 10px 20px; // Spacing within the button
+        border: none; // Remove button border
+        border-radius: 4px; // Rounded corners for the button
+        cursor: pointer; // Show pointer cursor on hover
+        transition: background-color 0.3s ease; // Smooth background color transition
+  
+        &:hover {
+          background-color: #0056b3; // Darker color on hover
+        }
+      }
+    }
+  }
+  
