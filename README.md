@@ -1,7 +1,7 @@
 **Title: Dad Jokes Auth and Testing**
 
 **Introduction:**
-The application I've provided is a web-based project focused on user authentication and jokes. It is a Node.js-based backend application with an Express.js server and a database for storing user information and jokes. The project incorporates several key components:
+In this application I've created is a web-based project focused on user authentication and jokes. It is a Node.js-based backend application with an Express.js server and a database for storing user information and jokes. The project incorporates several key components:
 
 **1. Server Setup:**
 The application is hosted on a Node.js server using the Express.js framework. Express simplifies routing, middleware integration, and handling HTTP requests and responses. The server configuration includes essential middleware for security and functionality:
